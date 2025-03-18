@@ -1,14 +1,19 @@
+use std::env;
+
 fn main() {
-    // Si las bibliotecas estáticas de SDL2 están en una carpeta especial, puedes usar pkg-config.
-    // Esto le dice a Rust que busque SDL2 para ver cómo debe enlazarlo.
+    println!("cargo:rerun-if-changed=build.rs");
 
-    println!("cargo:rerun-if-changed=build.rs"); // Esto asegura que se ejecute de nuevo si cambias este archivo
-
-    // Si tienes SDL2 estático, configuramos el enlace
-    println!("cargo:rustc-link-lib=static=SDL2");  // Enlaza la biblioteca estática de SDL2
-
-    // Si necesitas más información sobre la ubicación de las bibliotecas, puedes usar pkg-config
-    // pkg-config lo configura automáticamente si tienes SDL2 instalado y pkg-config disponible
-    println!("cargo:rustc-link-search=native=/ruta/a/las/bibliotecas");
+    if cfg!(target_os = "windows") {
+        println!("cargo:rustc-link-lib=static=SDL2");
+        println!("cargo:rustc-link-search=native=libs/win_sdl2/lib");
+    } else if cfg!(target_os = "macos") {
+        println!("cargo:rustc-link-lib=static=SDL2");
+        println!("cargo:rustc-link-search=native=libs/macos_sdl2/lib");
+    } else if cfg!(target_os = "linux") {
+        println!("cargo:rustc-link-lib=SDL2"); // link Dinámico
+        // Si querés ruta específica:
+        // println!("cargo:rustc-link-search=native=/usr/local/lib");
+    } else {
+        panic!("Plataforma no soportada");
+    }
 }
-

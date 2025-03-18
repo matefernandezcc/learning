@@ -1,8 +1,10 @@
 use sdl2;
 mod typedefs;
+mod p_player;
+mod g_game_state;
 
 fn game_loop() {
- println!("Hello, Doom!");
+    println!("Hello, Doom!");
 }
 
 
