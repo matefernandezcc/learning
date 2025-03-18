@@ -7,6 +7,12 @@ fn game_loop() {
 
 
 fn main() {
+    // init engine
+    // keyboard IO
+    // events handler
+    // renderer
+    // player
+    // rendering context (window)
     game_loop();
 }
 
