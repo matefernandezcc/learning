@@ -1,6 +1,12 @@
 use sdl2;
+mod typedefs;
+
+fn game_loop() {
+ println!("Hello, Doom!");
+}
+
 
 fn main() {
-     println!("Hello, world!");
+    game_loop();
 }
 
