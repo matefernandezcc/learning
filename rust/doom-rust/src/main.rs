@@ -9,6 +9,9 @@ fn game_loop() {
 
 
 fn main() {
+    // Iniciar instancia de SDL (para usar la biblioteca)
+    let sdl_context: sdl2::Sdl = sdl2::init().unwrap();
+    
     // init engine
     // keyboard IO
     // events handler
