@@ -1,5 +1,4 @@
 use core::f64;
-
 use sdl2::{event::Event, keyboard::{Scancode, Keycode}, EventPump};
 use crate::{game_state, player::{self, PlayerT}};
 

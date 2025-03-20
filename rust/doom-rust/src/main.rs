@@ -1,5 +1,5 @@
 use sdl2::{Sdl, VideoSubsystem, TimerSubsystem, EventPump};
-mod typedefs; mod p_player; mod g_game_state; mod k_keyboard;
+mod typedefs; mod player; mod game_state; mod keyboard; mod window; mod renderer; mod utils;
 
 ///////////////////////////////// SDL Contextos /////////////////////////////////
 pub struct SdlContextWrapper {
@@ -42,7 +42,6 @@ fn print_sdl_info(sdl_context: &Sdl, _event_pump: &sdl2::EventPump) {
     println!("Event pump is initialized and active.");
 }
 
-
 ///////////////////////////////// MAIN /////////////////////////////////
 fn game_loop() {
     println!("SDL2");
@@ -58,6 +57,6 @@ fn main() {
     // player
 
     // rendering context (window)
-    print_sdl_info(&sdl_wrapper.sdl_context, &sdl_wrapper.event_pump);
+    //print_sdl_info(&sdl_wrapper.sdl_context, &sdl_wrapper.event_pump);
     //game_loop();
 }
