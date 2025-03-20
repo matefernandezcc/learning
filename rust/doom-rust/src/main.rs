@@ -1,11 +1,12 @@
-use sdl2::{Sdl, VideoSubsystem, TimerSubsystem};
-mod typedefs; mod p_player; mod g_game_state;
+use sdl2::{Sdl, VideoSubsystem, TimerSubsystem, EventPump};
+mod typedefs; mod p_player; mod g_game_state; mod k_keyboard;
 
 ///////////////////////////////// SDL Contextos /////////////////////////////////
 pub struct SdlContextWrapper {
     pub sdl_context: Sdl,
     pub video_subsystem: VideoSubsystem,
     pub timer_subsystem: TimerSubsystem,
+    pub event_pump: EventPump,
 }
 
 impl SdlContextWrapper {
@@ -13,35 +14,33 @@ impl SdlContextWrapper {
         let sdl_context: Sdl = sdl2::init()?;
         let video_subsystem: VideoSubsystem = sdl_context.video()?;
         let timer_subsystem: TimerSubsystem = sdl_context.timer()?;
+        let event_pump: EventPump  = sdl_context.event_pump()?;
 
         Ok(SdlContextWrapper {
             sdl_context,
             video_subsystem,
             timer_subsystem,
+            event_pump,
         })
     }
 }
 
-/* 
-fn print_sdl_info(sdl_context: &Sdl) {
-    // Obtén el subsistema de video
-    let video_subsystem = sdl_context.video();
-    match video_subsystem {
-        Ok(video) => {
-            // Aquí puedes imprimir algo relacionado con el subsistema de video.
-            println!("Video Subsystem Initialized: {:?}", video);
-        },
+fn print_sdl_info(sdl_context: &Sdl, _event_pump: &sdl2::EventPump) {
+    // Subsistema de video
+    match sdl_context.video() {
+        Ok(video) => println!("Video Subsystem Initialized: {:?}", video),
         Err(e) => println!("Failed to initialize Video subsystem: {}", e),
     }
-    
-    // Para otros subsistemas, puedes hacer lo mismo:
-    let timer_subsystem = sdl_context.timer();
-    match timer_subsystem {
+
+    // Subsistema timer
+    match sdl_context.timer() {
         Ok(timer) => println!("Timer Subsystem Initialized: {:?}", timer),
         Err(e) => println!("Failed to initialize Timer subsystem: {}", e),
     }
+
+    // Confirmar que el event_pump está disponible
+    println!("Event pump is initialized and active.");
 }
-*/
 
 
 ///////////////////////////////// MAIN /////////////////////////////////
@@ -59,5 +58,6 @@ fn main() {
     // player
 
     // rendering context (window)
-    game_loop();
+    print_sdl_info(&sdl_wrapper.sdl_context, &sdl_wrapper.event_pump);
+    //game_loop();
 }

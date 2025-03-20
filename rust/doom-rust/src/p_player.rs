@@ -1,4 +1,4 @@
-use crate::typedefs; 
+use crate::typedefs;
 
 pub struct PlayerT {
     pub position: typedefs::Vec2T,

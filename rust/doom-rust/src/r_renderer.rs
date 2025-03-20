@@ -1,10 +1,8 @@
-use sdl2;
-mod typedefs;
-mod p_player;
-mod g_game_state;
-mod u_utils;
+use sdl2::Window;
+use crate::{typedefs, p_player, g_game_state, u_utils};
 
-///////////////////////////////// Structs necesarios /////////////////////////////////
+
+///////////////////////////////// STRUCTS /////////////////////////////////
 pub struct RPlaneT {
     pub t: [i32; 1024],
     pub b: [i32; 1024],
@@ -40,7 +38,7 @@ pub struct SectorsQueueT {
     pub num_sectors: i32,
 }
 
-///////////////////////////////// Implementaciones y funciones del Render /////////////////////////////////
+///////////////////////////////// FUNCIONES  /////////////////////////////////
 pub fn r_init(main_win: &SDL_Window, game_state: &GameStateT);
 pub fn r_shutdown();
 pub fn r_render(player: &PlayerT, game_state: &GameStateT);
