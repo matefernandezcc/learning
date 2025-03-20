@@ -1,4 +1,4 @@
-use sdl2::{video::Window, VideoSubsystem, render::{Canvas, Texture}, pixels::PixelFormatEnum, Sdl};
+use sdl2::{video::{Window, WindowContext}, VideoSubsystem, render::{Canvas, Texture, TextureCreator}, pixels::PixelFormatEnum, Sdl};
 use crate::{game_state, main, player, typedefs, utils, window};
 
 
@@ -38,27 +38,43 @@ pub struct SectorsQueueT {
     pub num_sectors: i32,
 }
 
+
+///////////////////////////////// SCREEN  /////////////////////////////////
 pub struct Screen {
     pub screen_buffer: Vec<u32>,
-    pub screen_texture: Option<Texture>,
     pub screen_buffer_size: usize,
 }
 
 impl Screen {
-    pub fn init_screen(&mut self, sdl_context: &Sdl, w: u32, h: u32) {
+    pub fn new() -> Self {
+        Screen {
+            screen_buffer: Vec::new(),
+            screen_buffer_size: 0,
+        }
+    }
+
+    pub fn init_screen(&mut self, sdl_context: &Sdl, w: u32, h: u32) -> Canvas<Window> {
         self.screen_buffer_size = (w * h) as usize;
         self.screen_buffer = vec![0; self.screen_buffer_size];
-        
-        // Obtén el VideoSubsystem
-        let video_subsystem = sdl_context.video().unwrap();
+
+        let video_subsystem: VideoSubsystem = sdl_context.video().unwrap();
     
-        let window = video_subsystem.window("Window", w, h).position_centered().build().unwrap();
-        let mut canvas = window.into_canvas().accelerated().build().unwrap();
+        let window: Window = video_subsystem.window("Window", w, h)
+            .position_centered()
+            .build().unwrap();
+        let canvas: Canvas<Window> = window.into_canvas().accelerated().build().unwrap();
         
-        // Crear la textura para la pantalla
-        match canvas.create_texture_streaming(PixelFormatEnum::RGBA32, w, h) {
-            Ok(texture) => {
-                self.screen_texture = Some(texture);
+        canvas // Retorna el Canvas (soluciona errores de lifetimes :D )
+    }
+
+    pub fn render(&mut self, canvas: &mut Canvas<Window>) {
+        let texture_creator: TextureCreator<WindowContext> = canvas.texture_creator();
+        match texture_creator.create_texture_streaming(PixelFormatEnum::RGBA32, 800, 600) { // Ajusta las dimensiones según necesites
+            Ok(mut texture) => {
+                // Actualizar la textura con el screen_buffer
+                texture.update(None, unsafe { &self.screen_buffer.align_to::<u8>().1 }, 800 * 4).unwrap(); // Ajusta el pitch
+                canvas.copy(&texture, None, None).unwrap();
+                canvas.present();
             }
             Err(e) => {
                 eprintln!("Error creating screen texture: {}", e);
@@ -66,6 +82,7 @@ impl Screen {
             }
         }
     }
+
     fn shutdown(&self) {
         eprintln!("Shutting down screen resources.");
     }
@@ -84,20 +101,18 @@ pub fn r_init(main_win: Window, game_state: &game_state::GameStateT) {
         .unwrap();
 }
 
-pub fn r_shutdown(){}
+//pub fn r_shutdown(){}
 
-pub fn r_render(player: &player::PlayerT, game_state: &game_state::GameStateT){
+//pub fn r_render(player: &player::PlayerT, game_state: &game_state::GameStateT){}
 
-}
+//pub fn r_draw_walls(player: &player::PlayerT, game_state: &game_state::GameStateT){}
 
-pub fn r_draw_walls(player: &player::PlayerT, game_state: &game_state::GameStateT){}
+//pub fn r_create_sector(height: i32, elevation: i32, color: u32, ceil_clr: u32, floor_clr: u32) -> SectorT{}
 
-pub fn r_create_sector(height: i32, elevation: i32, color: u32, ceil_clr: u32, floor_clr: u32) -> SectorT{}
+//pub fn r_sector_add_wall(sector: &SectorT, vertices: WallT){}
 
-pub fn r_sector_add_wall(sector: &SectorT, vertices: WallT){}
+//pub fn r_add_sector_to_queue(sector: &SectorT){}
 
-pub fn r_add_sector_to_queue(sector: &SectorT){}
+//pub fn r_create_wall(ax: i32, ay: i32, bx: i32, by: i32) -> WallT{}
 
-pub fn r_create_wall(ax: i32, ay: i32, bx: i32, by: i32) -> WallT{}
-
-pub fn r_create_portal(ax: i32, ay: i32, bx: i32, by: i32, th:i32, bh:i32) -> WallT{}
+//pub fn r_create_portal(ax: i32, ay: i32, bx: i32, by: i32, th:i32, bh:i32) -> WallT{}

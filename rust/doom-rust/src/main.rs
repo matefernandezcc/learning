@@ -50,6 +50,10 @@ fn main() {
     // Iniciar instancias de SDL (para usar la biblioteca)
     let sdl_wrapper: SdlContextWrapper = SdlContextWrapper::init().unwrap();
     
+    let mut screen = renderer::Screen::new();
+    let mut canvas = screen.init_screen(&sdl_wrapper.sdl_context, 800, 600);
+    screen.render(&mut canvas);
+    
     // init engine
     // keyboard IO
     // events handler
