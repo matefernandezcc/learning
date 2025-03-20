@@ -69,10 +69,10 @@ impl Screen {
 
     pub fn render(&mut self, canvas: &mut Canvas<Window>) {
         let texture_creator: TextureCreator<WindowContext> = canvas.texture_creator();
-        match texture_creator.create_texture_streaming(PixelFormatEnum::RGBA32, 800, 600) { // Ajusta las dimensiones según necesites
+        match texture_creator.create_texture_streaming(PixelFormatEnum::RGBA32, 800, 600) {
             Ok(mut texture) => {
                 // Actualizar la textura con el screen_buffer
-                texture.update(None, unsafe { &self.screen_buffer.align_to::<u8>().1 }, 800 * 4).unwrap(); // Ajusta el pitch
+                texture.update(None, unsafe { &self.screen_buffer.align_to::<u8>().1 }, 800 * 4).unwrap();
                 canvas.copy(&texture, None, None).unwrap();
                 canvas.present();
             }
@@ -82,7 +82,6 @@ impl Screen {
             }
         }
     }
-
     fn shutdown(&self) {
         eprintln!("Shutting down screen resources.");
     }

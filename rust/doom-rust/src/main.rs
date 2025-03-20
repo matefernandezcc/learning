@@ -47,20 +47,25 @@ fn game_loop() {
     println!("SDL2");
 }
 fn main() {
-    // Iniciar instancias de SDL (para usar la biblioteca)
+    // Iniciar instancias de SDL (para usar la biblioteca) ✔
     let sdl_wrapper: SdlContextWrapper = SdlContextWrapper::init().unwrap();
-    
+
+    // Keyboard IO ✔
+
+
+    // Events handler ✔
+
+
+    // Renderer ✔
     let mut screen = renderer::Screen::new();
+
     let mut canvas = screen.init_screen(&sdl_wrapper.sdl_context, 800, 600);
     screen.render(&mut canvas);
-    
-    // init engine
-    // keyboard IO
-    // events handler
-    // renderer
+
     // player
 
     // rendering context (window)
+    
     //print_sdl_info(&sdl_wrapper.sdl_context, &sdl_wrapper.event_pump);
     //game_loop();
 }
