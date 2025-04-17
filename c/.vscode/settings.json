@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "initializer_list": "c",
+        "sockets.h": "c",
+        "pthread.h": "c",
+        "cstdlib": "c"
+    }
+}
